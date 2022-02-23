@@ -59,7 +59,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     }
 
     override fun whenGetImageFinished(imageURL: SearchedImageURL?) {
-        println("RASPUTIA ${imageURL?.big}")
+        println("IMAGEM CHEGOU ${imageURL?.big}")
         loginImage.postValue(imageURL?.big)
     }
 
