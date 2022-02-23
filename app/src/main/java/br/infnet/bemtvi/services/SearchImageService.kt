@@ -18,8 +18,8 @@ interface SearchImageServiceListener {
     fun whenHttpError(erro:String)
 }
 interface SearchImageApi{
-    @GET
-    fun getImage(@Query("palavrachave") tvshowTitle:String):Call<SearchedImageURL?>
+    @GET("/pesquisaImagem")
+    fun getImage(@Query("palavraChave") tvshowTitle:String):Call<SearchedImageURL?>?
 }
 class SearchImageService{
     private lateinit var api: SearchImageApi
@@ -50,7 +50,7 @@ class SearchImageService{
             }
 
             override fun onFailure(call: Call<SearchedImageURL?>, t: Throwable) {
-                listenerImgService.whenHttpError("${t.message}")
+                listenerImgService.whenHttpError("retrofit parou mano: ${t.message}")
             }
 
         })
