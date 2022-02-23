@@ -81,7 +81,7 @@ class LoginActivity : AppCompatActivity() {
                 username.text.toString(),
                 password.text.toString()
             )
-            loginViewModel.loginImage.postValue(it)
+            loginViewModel.searchImage(it)
         }
 
         password.apply {

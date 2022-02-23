@@ -9,6 +9,7 @@ import br.infnet.bemtvi.data.Result
 
 import br.infnet.bemtvi.R
 import br.infnet.bemtvi.data.model.Tvshow
+import br.infnet.bemtvi.services.SearchImageService
 import br.infnet.bemtvi.services.SearchImageServiceListener
 import br.infnet.bemtvi.services.SearchedImageURL
 
@@ -20,6 +21,11 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
+    private val searchService = SearchImageService()
+
+    init {
+        searchService.setListener(this)
+    }
     val loginImage = MutableLiveData<String>()
 
     fun login(username: String, password: String) {
@@ -61,6 +67,9 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     override fun whenGetImageFinished(imageURL: SearchedImageURL?) {
         println("IMAGEM CHEGOU ${imageURL?.big}")
         loginImage.postValue(imageURL?.big)
+    }
+    fun searchImage(title:String){
+        searchService.getImage(title)
     }
 
     override fun whenHttpError(erro: String) {
