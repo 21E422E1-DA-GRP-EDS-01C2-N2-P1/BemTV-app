@@ -12,18 +12,33 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
+import androidx.security.crypto.EncryptedFile
 import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import androidx.security.crypto.MasterKeys
 import br.infnet.bemtvi.databinding.ActivityLoginBinding
 
 import br.infnet.bemtvi.R
+import br.infnet.bemtvi.data.model.Tvshow
+import br.infnet.bemtvi.services.MyEncryptionService
+import br.infnet.bemtvi.services.MyFirebaseLibrary
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
+import java.io.File
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
 
+    fun snackAlert(text:String){
+
+        val up_layout:View  = binding.upLayout as View
+        Snackbar.make(up_layout,"  ${text}", Snackbar.LENGTH_LONG+4242).show()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -65,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK)
 
             //Complete and destroy login activity once successful
-            finish()
+            //finish()
         })
         loginViewModel.loginImage.observe(this@LoginActivity,Observer{
 
@@ -90,24 +105,17 @@ class LoginActivity : AppCompatActivity() {
                     username.text.toString(),
                     password.text.toString()
                 )
-                fun encript(){
-                    val keyToOpenOrCloseSharedPref = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-
-                    val sharedPreferencs = EncryptedSharedPreferences.create(
-                        "passencrip.sp",
-                        keyToOpenOrCloseSharedPref,
-                        this@LoginActivity,
-                        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-                    )
-                    with(sharedPreferencs.edit()){
-                        this.putString("bemtvpass",it)
-                        this.commit()
-
-                    }
-                    val bemtvpass = sharedPreferencs.getString("bemtvpass","")
+                val msEncript = MyEncryptionService(this@LoginActivity,filesDir)
+                fun encriptOld(){
+                    val bemtvpass = msEncript.encriptOld(it)
                     binding.username.setText(bemtvpass)
                 }
+                fun encriptNew(){
+                    var result = msEncript.encriptBuilder(binding.username.text.toString())
+                    snackAlert("gravou ${result}")
+                }
+
+
 
 
 
@@ -127,6 +135,17 @@ class LoginActivity : AppCompatActivity() {
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
+                 fun firestoreNestedGetter(){
+                     val mfb = MyFirebaseLibrary()
+                     mfb.firestoreNestedGetter().addOnSuccessListener {
+                         it?.let{
+                             val tvshows = it.toObjects(Tvshow::class.java)
+                             snackAlert("$tvshows")
+                         }
+                     }
+                 }
+                //fun firestore
+                firestoreNestedGetter()
             }
         }
     }

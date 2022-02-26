@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "368067659387",
+    "project_id": "bemtv-a25af",
+    "storage_bucket": "bemtv-a25af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:368067659387:android:b280b928e708a6b17484de",
+        "android_client_info": {
+          "package_name": "br.infnet.bemtvi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "368067659387-h7a5hgael41i1p3lcd9hlapdoe5smrk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAoBgthFARtHOb-IySsCUca_9e514VO_uE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "368067659387-h7a5hgael41i1p3lcd9hlapdoe5smrk3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
