@@ -1,6 +1,8 @@
 package br.infnet.bemtvi.services
 
+import android.content.ContentUris
 import android.content.Context
+import android.provider.MediaStore
 import androidx.security.crypto.EncryptedFile
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
@@ -115,4 +117,24 @@ class MyFirebaseLibrary() {
     }
 
 
+}
+class MyMediaStore(private val applicationContext:Context){
+    fun contentProviderGetAllImages(){
+        val imagesLocationUser = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
+        val resolverQuery = applicationContext.contentResolver
+            .query(imagesLocationUser,arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME),
+                null,null,null)
+        resolverQuery.use {
+                cursor->
+            val idColumn = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+            val nameColumn = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
+            println(cursor.count)
+            while(cursor.moveToNext()){
+                val n = cursor.getString(nameColumn)
+                val cUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,cursor.getLong(idColumn))
+                println("$n")
+            }
+        }
+
+    }
 }

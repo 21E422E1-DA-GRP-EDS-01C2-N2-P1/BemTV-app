@@ -139,35 +139,9 @@ class LoginActivity : AppCompatActivity() {
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
 
-                 fun firestoreNestedGetter(){
-                     val mfb = MyFirebaseLibrary()
-                     mfb.firestoreNestedGetter().addOnSuccessListener {
-                         it?.let{
-                             val tvshows = it.toObjects(Tvshow::class.java)
-                             snackAlert("$tvshows")
-                         }
-                     }
-                 }
 
-                fun contentProviderGetAllImages(){
-                    val imagesLocationUser = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
-                    val resolverQuery = applicationContext.contentResolver
-                        .query(imagesLocationUser,arrayOf(MediaStore.Images.Media._ID,MediaStore.Images.Media.DISPLAY_NAME),
-                        null,null,null)
-                    resolverQuery.use {
-                        cursor->
-                        val idColumn = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-                        val nameColumn = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
-                        println(cursor.count)
-                        while(cursor.moveToNext()){
-                            val n = cursor.getString(nameColumn)
-                            val cUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,cursor.getLong(idColumn))
-                            println("$n")
-                        }
-                    }
 
-                }
-                contentProviderGetAllImages()
+
             }
         }
     }
@@ -185,6 +159,15 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    }
+    fun firestoreNestedGetterListener(){
+        val mfb = MyFirebaseLibrary()
+        mfb.firestoreNestedGetter().addOnSuccessListener {
+            it?.let{
+                val tvshows = it.toObjects(Tvshow::class.java)
+                snackAlert("$tvshows")
+            }
+        }
     }
 }
 
