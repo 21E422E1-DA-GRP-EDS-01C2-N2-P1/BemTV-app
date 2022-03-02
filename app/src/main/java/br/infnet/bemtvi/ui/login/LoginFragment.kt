@@ -1,62 +1,52 @@
 package br.infnet.bemtvi.ui.login
 
 import android.app.Activity
-import android.content.ContentUris
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.provider.MediaStore
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
-import androidx.security.crypto.EncryptedFile
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
-import androidx.security.crypto.MasterKeys
-import br.infnet.bemtvi.databinding.ActivityLoginBinding
-
+import androidx.annotation.StringRes
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import br.infnet.bemtvi.R
-import br.infnet.bemtvi.data.model.Tvshow
+import br.infnet.bemtvi.databinding.LoginFragmentBinding
 import br.infnet.bemtvi.services.MyEncryptionService
-import br.infnet.bemtvi.services.MyFirebaseLibrary
+
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
-import java.io.File
 
-class LoginActivity : AppCompatActivity() {
+class LoginFragment : Fragment() {
 
-    private lateinit var loginViewModel: LoginViewModel
-    private lateinit var binding: ActivityLoginBinding
-
-    fun snackAlert(text:String){
-
-        val up_layout:View  = binding.upLayout as View
-        Snackbar.make(up_layout,"  ${text}", Snackbar.LENGTH_LONG+4242).show()
+    companion object {
+        fun newInstance() = LoginFragment()
     }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    private lateinit var binding: LoginFragmentBinding
+    private val loginViewModel: LoginViewModel by viewModels()
+    fun snackAlert(text: String) {
 
+        val up_layout: View = binding.upLayout as View
+        Snackbar.make(up_layout, "  ${text}", Snackbar.LENGTH_LONG + 4242).show()
+    }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = LoginFragmentBinding.inflate(inflater, container, false)
         val username = binding.username
         val password = binding.password
         val login = binding.login
         val loading = binding.loading
 
 
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-            .get(LoginViewModel::class.java)
-
-        loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
+        loginViewModel.loginFormState.observe(viewLifecycleOwner, Observer {
             val loginState = it ?: return@Observer
 
             // disable login button unless both username / password is valid
@@ -70,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
-        loginViewModel.loginResult.observe(this@LoginActivity, Observer {
+        loginViewModel.loginResult.observe(viewLifecycleOwner, Observer {
             val loginResult = it ?: return@Observer
 
             loading.visibility = View.GONE
@@ -80,12 +70,12 @@ class LoginActivity : AppCompatActivity() {
             if (loginResult.success != null) {
                 updateUiWithUser(loginResult.success)
             }
-            setResult(Activity.RESULT_OK)
 
             //Complete and destroy login activity once successful
+            ///setResult(Activity.RESULT_OK)
             //finish()
         })
-        loginViewModel.loginImage.observe(this@LoginActivity,Observer{
+        loginViewModel.loginImage.observe(viewLifecycleOwner, Observer {
 
             Picasso.get().load(it)
                 .centerCrop()
@@ -108,18 +98,16 @@ class LoginActivity : AppCompatActivity() {
                     username.text.toString(),
                     password.text.toString()
                 )
-                val msEncript = MyEncryptionService(this@LoginActivity,filesDir)
-                fun encriptOld(){
+                val msEncript = MyEncryptionService(requireContext(), requireContext().filesDir)
+                fun encriptOld() {
                     val bemtvpass = msEncript.encriptOld(it)
                     binding.username.setText(bemtvpass)
                 }
-                fun encriptNew(){
+
+                fun encriptNew() {
                     var result = msEncript.encriptBuilder(binding.username.text.toString())
                     snackAlert("gravou ${result}")
                 }
-
-
-
 
 
             }
@@ -140,10 +128,12 @@ class LoginActivity : AppCompatActivity() {
                 loginViewModel.login(username.text.toString(), password.text.toString())
 
 
-
-
             }
         }
+
+        return binding.root
+
+
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
@@ -151,26 +141,17 @@ class LoginActivity : AppCompatActivity() {
         val displayName = model.displayName
         // TODO : initiate successful logged in experience
         Toast.makeText(
-            applicationContext,
+            requireContext(),
             "$welcome $displayName",
             Toast.LENGTH_LONG
         ).show()
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), errorString, Toast.LENGTH_SHORT).show()
     }
-    fun firestoreNestedGetterListener(){
-        val mfb = MyFirebaseLibrary()
-        mfb.firestoreNestedGetter().addOnSuccessListener {
-            it?.let{
-                val tvshows = it.toObjects(Tvshow::class.java)
-                snackAlert("$tvshows")
-            }
-        }
-    }
-}
 
+}
 /**
  * Extension function to simplify setting an afterTextChanged action to EditText components.
  */
