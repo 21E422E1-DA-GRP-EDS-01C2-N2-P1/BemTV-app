@@ -1,19 +1,51 @@
 package br.infnet.bemtvi.ui.login
 
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.util.Patterns
+import androidx.lifecycle.ViewModelProvider
+import br.infnet.bemtvi.R
+import br.infnet.bemtvi.data.LoginDataSource
 import br.infnet.bemtvi.data.LoginRepository
 import br.infnet.bemtvi.data.Result
-
-import br.infnet.bemtvi.R
-import br.infnet.bemtvi.data.model.Tvshow
 import br.infnet.bemtvi.services.SearchImageService
 import br.infnet.bemtvi.services.SearchImageServiceListener
 import br.infnet.bemtvi.services.SearchedImageURL
 
-class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel(),SearchImageServiceListener {
+/**
+ * User details post authentication that is exposed to the UI
+ */
+data class LoggedInUserView(
+    val displayName: String
+    //... other data fields that may be accessible to the UI
+)
+data class LoginFormState(
+    val usernameError: Int? = null,
+    val passwordError: Int? = null,
+    val isDataValid: Boolean = false
+)
+data class LoginResult(
+    val success: LoggedInUserView? = null,
+    val error: Int? = null
+)
+class LoginViewModelFactory : ViewModelProvider.Factory {
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
+            return LoginViewModel(
+                loginRepository = LoginRepository(
+                    dataSource = LoginDataSource()
+                )
+            ) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+
+class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel(),
+    SearchImageServiceListener {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
@@ -73,6 +105,6 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     }
 
     override fun whenHttpError(erro: String) {
-       // TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 }

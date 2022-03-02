@@ -1,9 +1,11 @@
 package br.infnet.bemtvi.ui.login
 
 import android.app.Activity
+import android.content.ContentUris
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
@@ -49,6 +51,7 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.password
         val login = binding.login
         val loading = binding.loading
+
 
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
             .get(LoginViewModel::class.java)
@@ -135,6 +138,7 @@ class LoginActivity : AppCompatActivity() {
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
                 loginViewModel.login(username.text.toString(), password.text.toString())
+
                  fun firestoreNestedGetter(){
                      val mfb = MyFirebaseLibrary()
                      mfb.firestoreNestedGetter().addOnSuccessListener {
@@ -144,8 +148,26 @@ class LoginActivity : AppCompatActivity() {
                          }
                      }
                  }
-                //fun firestore
-                firestoreNestedGetter()
+
+                fun contentProviderGetAllImages(){
+                    val imagesLocationUser = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
+                    val resolverQuery = applicationContext.contentResolver
+                        .query(imagesLocationUser,arrayOf(MediaStore.Images.Media._ID,MediaStore.Images.Media.DISPLAY_NAME),
+                        null,null,null)
+                    resolverQuery.use {
+                        cursor->
+                        val idColumn = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+                        val nameColumn = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
+                        println(cursor.count)
+                        while(cursor.moveToNext()){
+                            val n = cursor.getString(nameColumn)
+                            val cUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,cursor.getLong(idColumn))
+                            println("$n")
+                        }
+                    }
+
+                }
+                contentProviderGetAllImages()
             }
         }
     }
