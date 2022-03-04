@@ -9,7 +9,7 @@ import com.google.firebase.auth.AuthResult
 
 class SignInDialog:LoginDialogFragmentOpen() {
     override fun confirmBtnAction(email: String, password: String) {
-        val d = 4
+
         with(activityViewModel) {
             val mySignInAccountListener = { task: Task<AuthResult> ->
                 if (task.isSuccessful && mAuth != null) {
