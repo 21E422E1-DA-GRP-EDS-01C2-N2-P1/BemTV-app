@@ -37,9 +37,8 @@ class LoggedinFragment : Fragment() {
     }
     private fun setupBottomNavigation(view:View){
         val bottomBtns: BottomNavigationView = binding.bottomNavBtns
-
-        val navHostFragment = childFragmentManager.findFragmentById(R.id.loggedmain_navhost)
-                as NavHostFragment
+        val navHostFragment = childFragmentManager
+            .findFragmentById(R.id.loggedmain_navhost) as NavHostFragment
         val navController = findNavController(navHostFragment)
         bottomBtns.setupWithNavController(navController)
 
