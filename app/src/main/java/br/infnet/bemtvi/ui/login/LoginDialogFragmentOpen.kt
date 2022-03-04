@@ -45,7 +45,7 @@ open class LoginDialogFragmentOpen : DialogFragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private val loginViewModel: LoginViewModel by viewModels(){
+    private val loginDialogViewModel: LoginDialogViewModel by viewModels(){
         LoginViewModelFactory()
     }
     val activityViewModel: MainActivityViewModel by activityViewModels()
@@ -81,7 +81,7 @@ open class LoginDialogFragmentOpen : DialogFragment() {
     }
 
     private fun setupObservers(username:EditText,password:EditText,login:Button){
-        with(loginViewModel){
+        with(loginDialogViewModel){
             loginFormState.observe(viewLifecycleOwner, Observer {
                 val loginState = it ?: return@Observer
 
@@ -129,16 +129,16 @@ open class LoginDialogFragmentOpen : DialogFragment() {
     }
     private fun setupFieldsValidations(username:EditText, password:EditText, login:Button) {
         username.afterTextChanged {
-            loginViewModel.loginDataChanged(
+            loginDialogViewModel.loginDataChanged(
                 username.text.toString(),
                 password.text.toString()
             )
-            loginViewModel.searchImage(it)
+            loginDialogViewModel.searchImage(it)
         }
 
         password.apply {
             afterTextChanged {
-                loginViewModel.loginDataChanged(
+                loginDialogViewModel.loginDataChanged(
                     username.text.toString(),
                     password.text.toString()
                 )
@@ -147,7 +147,7 @@ open class LoginDialogFragmentOpen : DialogFragment() {
             setOnEditorActionListener { _, actionId, _ ->
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
+                        loginDialogViewModel.login(
                             username.text.toString(),
                             password.text.toString()
                         )
@@ -157,7 +157,7 @@ open class LoginDialogFragmentOpen : DialogFragment() {
 
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+                loginDialogViewModel.login(username.text.toString(), password.text.toString())
                 val emailtxt = emailField.text.toString()
                 val passwordtxt = passwordField.text.toString()
                 confirmBtnAction(emailtxt,passwordtxt)

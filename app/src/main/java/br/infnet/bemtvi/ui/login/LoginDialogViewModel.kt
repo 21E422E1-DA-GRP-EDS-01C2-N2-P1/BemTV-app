@@ -33,8 +33,8 @@ class LoginViewModelFactory : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-            return LoginViewModel(
+        if (modelClass.isAssignableFrom(LoginDialogViewModel::class.java)) {
+            return LoginDialogViewModel(
                 loginRepository = LoginRepository(
                     dataSource = LoginDataSource()
                 )
@@ -44,7 +44,7 @@ class LoginViewModelFactory : ViewModelProvider.Factory {
     }
 }
 
-class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel(),
+class LoginDialogViewModel(private val loginRepository: LoginRepository) : ViewModel(),
     SearchImageServiceListener {
 
     private val _loginForm = MutableLiveData<LoginFormState>()
