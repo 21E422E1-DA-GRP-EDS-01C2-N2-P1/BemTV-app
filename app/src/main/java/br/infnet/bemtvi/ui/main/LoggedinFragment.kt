@@ -41,7 +41,6 @@ class LoggedinFragment : Fragment() {
         val navHostFragment = childFragmentManager.findFragmentById(R.id.loggedmain_navhost)
                 as NavHostFragment
         val navController = findNavController(navHostFragment)
-
         bottomBtns.setupWithNavController(navController)
 
     }
