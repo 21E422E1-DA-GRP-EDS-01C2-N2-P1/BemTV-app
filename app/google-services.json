@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "368067659387",
-    "project_id": "bemtv-a25af",
-    "storage_bucket": "bemtv-a25af.appspot.com"
+    "project_number": "480452003717",
+    "project_id": "libfyzin",
+    "storage_bucket": "libfyzin.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:368067659387:android:b280b928e708a6b17484de",
+        "mobilesdk_app_id": "1:480452003717:android:c75d7844ff28306a3526ec",
         "android_client_info": {
           "package_name": "br.infnet.bemtvi"
         }
       },
       "oauth_client": [
         {
-          "client_id": "368067659387-h7a5hgael41i1p3lcd9hlapdoe5smrk3.apps.googleusercontent.com",
+          "client_id": "480452003717-epndrokbs2ukr53b09oj3nhehaot4m5g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.infnet.bemtvi",
+            "certificate_hash": "cdf22f9a73d535279349e8935d12797b691a1098"
+          }
+        },
+        {
+          "client_id": "480452003717-cijti13gr55bo1c4reog4lnavgbt7a97.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAoBgthFARtHOb-IySsCUca_9e514VO_uE"
+          "current_key": "AIzaSyBphdGVlLlHc0pR3iu0gBQhx6uMdy30qoU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "368067659387-h7a5hgael41i1p3lcd9hlapdoe5smrk3.apps.googleusercontent.com",
+              "client_id": "480452003717-cijti13gr55bo1c4reog4lnavgbt7a97.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

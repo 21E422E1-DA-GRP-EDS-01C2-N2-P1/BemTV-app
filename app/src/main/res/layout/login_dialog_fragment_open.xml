@@ -5,11 +5,33 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    tools:context=".ui.login.LoginDialogFragmentOpen"
     tools:layout_editor_absoluteX="1dp"
-    tools:layout_editor_absoluteY="338dp"
-    tools:context=".ui.login.LoginDialogFragmentOpen">
+    tools:layout_editor_absoluteY="338dp">
 
 
+        <ProgressBar
+            android:id="@+id/loading2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="64dp"
+            android:layout_marginBottom="64dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/password"
+            app:layout_constraintStart_toStartOf="@+id/password"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <EditText
             android:id="@+id/editTextTextEmailAddress"
@@ -23,7 +45,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_dialog_title" />
 
         <EditText
             android:id="@+id/editTextTextPassword"
@@ -62,6 +84,16 @@
             android:text="criar"
             app:layout_constraintStart_toStartOf="@+id/editTextTextPassword"
             app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+
+        <TextView
+            android:id="@+id/txt_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

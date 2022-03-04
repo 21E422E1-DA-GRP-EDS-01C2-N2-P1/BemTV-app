@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loggedin_navigation"
+    app:startDestination="@id/tvshowFragment">
+
+    <fragment
+        android:id="@+id/tvshowFragment"
+        android:name="br.infnet.bemtvi.ui.main.tvshowslist.TvshowFragment"
+        android:label="fragment_tvshow_list"
+        tools:layout="@layout/fragment_tvshow_list" />
+    <fragment
+        android:id="@+id/watchedFragment"
+        android:name="br.infnet.bemtvi.ui.main.watchedlist.WatchedFragment"
+        android:label="fragment_watched_list"
+        tools:layout="@layout/fragment_watched_list" />
+    <fragment
+        android:id="@+id/userProfileFragment"
+        android:name="br.infnet.bemtvi.ui.main.userprofile.UserProfileFragment"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile" />
+</navigation>

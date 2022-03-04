@@ -1,0 +1,32 @@
+package br.infnet.bemtvi.ui.main
+
+import androidx.lifecycle.ViewModelProvider
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import br.infnet.bemtvi.R
+
+class LoggedinFragment : Fragment() {
+
+    companion object {
+        fun newInstance() = LoggedinFragment()
+    }
+
+    private lateinit var viewModel: LoggedinViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.loggedin_fragment, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(LoggedinViewModel::class.java)
+        // TODO: Use the ViewModel
+    }
+
+}
