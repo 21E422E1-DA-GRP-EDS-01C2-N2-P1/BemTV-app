@@ -20,4 +20,39 @@
         android:name="br.infnet.bemtvi.ui.main.userprofile.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="br.infnet.bemtvi.ui.login.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_signUpDialog"
+            app:destination="@id/signUpDialog" />
+        <action
+            android:id="@+id/action_loginFragment_to_signInDialog"
+            app:destination="@id/signInDialog" />
+    </fragment>
+    <dialog
+        android:id="@+id/loginDialogFragmentOpen"
+        android:name="br.infnet.bemtvi.ui.login.LoginDialogFragmentOpen"
+        android:label="login_dialog_fragment_open"
+        tools:layout="@layout/login_dialog_fragment_open" >
+        <action
+            android:id="@+id/action_loginDialogFragmentOpen_to_tvshowFragment"
+            app:destination="@id/tvshowFragment" />
+        <action
+            android:id="@+id/action_loginDialogFragmentOpen_to_watchedFragment"
+            app:destination="@id/watchedFragment" />
+        <action
+            android:id="@+id/action_loginDialogFragmentOpen_to_userProfileFragment2"
+            app:destination="@id/userProfileFragment" />
+    </dialog>
+    <dialog
+        android:id="@+id/signInDialog"
+        android:name="br.infnet.bemtvi.ui.login.SignInDialog"
+        android:label="SignInDialog" />
+    <dialog
+        android:id="@+id/signUpDialog"
+        android:name="br.infnet.bemtvi.ui.login.SignUpDialog"
+        android:label="SignUpDialog" />
 </navigation>

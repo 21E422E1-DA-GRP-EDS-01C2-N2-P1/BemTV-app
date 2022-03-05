@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import br.infnet.bemtvi.R
+import br.infnet.bemtvi.databinding.FragmentTvshowListBinding
 import br.infnet.bemtvi.ui.main.tvshowslist.placeholder.PlaceholderContent
 
 /**
@@ -17,7 +18,7 @@ import br.infnet.bemtvi.ui.main.tvshowslist.placeholder.PlaceholderContent
 class TvshowFragment : Fragment() {
 
     private var columnCount = 2
-
+    private lateinit var binding:FragmentTvshowListBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,19 +31,17 @@ class TvshowFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_tvshow_list, container, false)
+        binding = FragmentTvshowListBinding.inflate(inflater,container,false)
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
+
+            with(binding.rvlistTvshows as RecyclerView) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
                 adapter = MyTvshowRecyclerViewAdapter(PlaceholderContent.ITEMS)
             }
-        }
-        return view
+        return binding.root
     }
 
     companion object {
