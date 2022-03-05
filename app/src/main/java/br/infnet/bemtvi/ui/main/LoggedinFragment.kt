@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.ui.setupWithNavController
 import br.infnet.bemtvi.R
 import br.infnet.bemtvi.databinding.LoggedinFragmentBinding
+import br.infnet.bemtvi.ui.MainActivityViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class LoggedinFragment : Fragment() {
@@ -22,6 +24,7 @@ class LoggedinFragment : Fragment() {
     private lateinit var viewModel: LoggedinViewModel
     private lateinit var binding:LoggedinFragmentBinding
 
+    val activityViewModel: MainActivityViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,6 +36,7 @@ class LoggedinFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activityViewModel.verifyCurrentUser()
         setupBottomNavigation(view)
     }
     private fun setupBottomNavigation(view:View){
