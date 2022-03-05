@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "665535110158",
+    "project_id": "bemtviapepe",
+    "storage_bucket": "bemtviapepe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665535110158:android:5a356d19a612036a48b05f",
+        "android_client_info": {
+          "package_name": "br.infnet.bemtvi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "665535110158-18tjsokpeu6isjss15am3s9eh34fcrf8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDLkA0DAkgJs575or7EQiOilCV0G_4XFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "665535110158-18tjsokpeu6isjss15am3s9eh34fcrf8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
