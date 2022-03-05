@@ -12,7 +12,11 @@ class MainActivityViewModel: ViewModel() {
 
     val mUserLiveData = MutableLiveData<FirebaseUser?>().apply { value=null }
 
-    val isUserLoggedIn:LiveData<Boolean> = Transformations.map(mUserLiveData,{user->
+    fun getLiveDataWhenOtherLiveDataChange(
+        changedLiveData:MutableLiveData<FirebaseUser?>,functionWhichReturnsNewValue:(FirebaseUser?)->Boolean): LiveData<Boolean> {
+        return Transformations.map(changedLiveData,functionWhichReturnsNewValue)
+    }
+    val isUserLoggedIn:LiveData<Boolean> = getLiveDataWhenOtherLiveDataChange(mUserLiveData,{user->
         user!=null
     })
 

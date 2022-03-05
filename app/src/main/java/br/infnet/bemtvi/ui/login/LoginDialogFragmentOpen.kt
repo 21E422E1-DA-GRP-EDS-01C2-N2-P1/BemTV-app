@@ -160,8 +160,8 @@ open class LoginDialogFragmentOpen : DialogFragment() {
                 loginDialogViewModel.login(username.text.toString(), password.text.toString())
                 val emailtxt = emailField.text.toString()
                 val passwordtxt = passwordField.text.toString()
-                confirmBtnAction(emailtxt,passwordtxt)
-                dismiss()
+                confirmBtnClick(emailtxt,passwordtxt)
+
 
             }
         }
@@ -184,7 +184,12 @@ open class LoginDialogFragmentOpen : DialogFragment() {
 
         setupFieldsValidations(emailField,passwordField,confirmButton)
     }
+    private fun confirmBtnClick(email:String,password:String){
+        loading.visibility = View.VISIBLE
+        confirmBtnAction( email,password)
+    }
     open fun confirmBtnAction(email:String,password:String){}
+
     fun setDialogTitle(newTitle:String){
         dialogTitle = newTitle
     }

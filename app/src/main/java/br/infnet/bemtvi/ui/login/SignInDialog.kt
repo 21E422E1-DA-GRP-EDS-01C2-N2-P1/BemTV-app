@@ -8,12 +8,12 @@ import com.google.firebase.auth.AuthResult
 
 class SignInDialog : LoginDialogFragmentOpen() {
     override fun confirmBtnAction(email: String, password: String) {
+
         val currentactivity = requireActivity()
         currentactivity?.let {
 
             with(activityViewModel) {
                 val loginSucessListener = { taskResult: AuthResult ->
-                    //mUser = mAuth!!.currentUser
                     mUserLiveData.postValue(mAuth!!.currentUser)
                     dismiss()
                     Toast.makeText(
