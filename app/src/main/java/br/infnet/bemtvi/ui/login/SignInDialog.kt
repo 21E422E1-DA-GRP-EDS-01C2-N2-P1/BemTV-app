@@ -4,34 +4,43 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 
-class SignInDialog:LoginDialogFragmentOpen() {
+class SignInDialog : LoginDialogFragmentOpen() {
     override fun confirmBtnAction(email: String, password: String) {
+        val currentactivity = requireActivity()
+        currentactivity?.let {
 
-        with(activityViewModel) {
-            val mySignInAccountListener = { task: Task<AuthResult> ->
-                if (task.isSuccessful && mAuth != null) {
-                    mUser =  mAuth!!.currentUser
-                    Toast.makeText(requireActivity(),"bem vindo de volta",
-                        Toast.LENGTH_LONG+4242).show()
-                    activityViewModel.isLoggedIn.postValue(true)
+            with(activityViewModel) {
+                val loginSucessListener = { taskResult: AuthResult ->
+                    //mUser = mAuth!!.currentUser
+                    mUserLiveData.postValue(mAuth!!.currentUser)
                     dismiss()
-                } else {
-                    Log.d("ERRO LOGIN/CREATE", "${task.exception!!.message}")
                     Toast.makeText(
-                        requireContext(), "Falha na Autenticação",
+                        it, "bem vindo de volta",
+                        Toast.LENGTH_LONG + 4242
+                    ).show()
+
+
+                }
+                val loginFailListener = { exception: Exception ->
+
+                    Log.d("ERRO LOGIN/CREATE", "${exception!!.message}")
+                    Toast.makeText(
+                        it, "Falha na Autenticação",
                         Toast.LENGTH_SHORT
                     ).show()
-                    mUser = null
+
+                    mUserLiveData.postValue(null)
+
                 }
-                //updateUI()
+                println(mAuth)
+                with(mAuth?.signInWithEmailAndPassword(email, password)) {
+                    this?.addOnSuccessListener(requireActivity(), loginSucessListener)
+                    this?.addOnFailureListener(requireActivity(), loginFailListener)
+                }
+
             }
-            mAuth?.signInWithEmailAndPassword(email, password)
-                ?.addOnCompleteListener(requireActivity(),mySignInAccountListener)
-            //teste
-            activityViewModel.isLoggedIn.postValue(true)
         }
     }
 

@@ -133,7 +133,7 @@ open class LoginDialogFragmentOpen : DialogFragment() {
                 username.text.toString(),
                 password.text.toString()
             )
-            loginDialogViewModel.searchImage(it)
+            //loginDialogViewModel.searchImage(it)
         }
 
         password.apply {

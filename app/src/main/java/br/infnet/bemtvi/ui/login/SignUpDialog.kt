@@ -11,26 +11,39 @@ class SignUpDialog : LoginDialogFragmentOpen() {
 
 
     override fun confirmBtnAction(email: String, password: String) {
+        val currentactivity = requireActivity()
+        currentactivity?.let {
 
-        with(activityViewModel) {
-            val myCreateAccountListener = { task: Task<AuthResult> ->
-                if (task.isSuccessful && mAuth != null) {
-                    mUser = mAuth!!.currentUser
+            with(activityViewModel) {
+                val loginSucessListener = { taskResult: AuthResult ->
+                    mUserLiveData.postValue(mAuth!!.currentUser)
                     dismiss()
-                } else {
-                    Log.d("ERRO LOGIN/CREATE", "${task.exception!!.message}")
                     Toast.makeText(
-                        requireContext(), "Falha na Autenticação",
+                        it, "Criada com sucesso",
+                        Toast.LENGTH_LONG + 4242
+                    ).show()
+                    //activityViewModel.isLoggedIn.postValue(true)
+
+                }
+                val loginFailListener = { exception: Exception ->
+
+                    Log.d("ERRO LOGIN/CREATE", "${exception!!.message}")
+                    Toast.makeText(
+                        it, "Falha na Autenticação",
                         Toast.LENGTH_SHORT
                     ).show()
-                    mUser = null
+                    mUserLiveData.postValue( null)
+
                 }
-                //updateUI()
+
+
+
+                with(mAuth?.createUserWithEmailAndPassword(email, password)){
+                    this?.addOnSuccessListener(requireActivity(), loginSucessListener)
+                    this?.addOnFailureListener (requireActivity(), loginFailListener)
+                }
+
             }
-
-
-            mAuth?.createUserWithEmailAndPassword(email, password)
-                ?.addOnCompleteListener(requireActivity(), myCreateAccountListener)
         }
     }
 
