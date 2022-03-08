@@ -11,4 +11,5 @@
 ## Mapa das rotas atual
 
 ![ Mapa](https://github.com/21E422E1-DA-GRP-EDS-01C2-N2-P1/BemTV-app/blob/gabriel/assets/roadmap.png?raw=true "rotas")
-
+- LoginDialogFragmentOpen é o pai de SignInDialog e SignOutDialog
+- o pacote de services no momento só existe código para consulta de coisas que poderão ser usadas no código posteriormente
