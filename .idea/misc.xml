@@ -9,8 +9,10 @@
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.21" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.2046875" />
+        <entry key="app/src/main/res/layout/fragment_tvshow.xml" value="0.11574074074074074" />
         <entry key="app/src/main/res/layout/fragment_tvshow_list.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_user_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_watched.xml" value="0.11574074074074074" />
         <entry key="app/src/main/res/layout/fragment_watched_list.xml" value="0.20199275362318841" />
         <entry key="app/src/main/res/layout/loggedin_fragment.xml" value="0.215625" />
         <entry key="app/src/main/res/layout/login_dialog.xml" value="0.290625" />
