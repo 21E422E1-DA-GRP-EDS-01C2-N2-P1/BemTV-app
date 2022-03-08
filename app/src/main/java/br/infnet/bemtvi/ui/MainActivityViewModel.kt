@@ -35,6 +35,7 @@ class MainActivityViewModel: ViewModel() {
         mUserLiveData.postValue(null)
     }
     private fun createUserByAuth(mUser: FirebaseUser){
+
         val users_collection = Firebase.firestore.collection("users")
         //val tvShowSample = Tvshow(21, "friends", "#http")
         val newuser:MyFirestoreUser? = mUser.email?.let {
@@ -45,6 +46,7 @@ class MainActivityViewModel: ViewModel() {
             val ldf =  it
             val dd = ""
         }
+
     }
     fun verifyCurrentUser(){
         mUserLiveData?.value?.let{
