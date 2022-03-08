@@ -52,6 +52,7 @@ class MainActivityViewModel: ViewModel() {
         mUserLiveData?.value?.let{
             val db = Firebase.firestore
             val users_collection = db.collection("users")
+            val userUid = it.uid
             val test = users_collection.whereEqualTo("id",it.uid)
             test.addSnapshotListener { value, error ->
                 val vw = value?.toMutableList()

@@ -1,6 +1,7 @@
 package br.infnet.bemtvi
 
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -18,10 +19,19 @@ class UiTest {
     val activityRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
-    fun findLoginButtonByText(){
+    fun loginOnAccount(){
         //onView(ViewMatchers.withId(R.))
-        onView(ViewMatchers.withText("entrar"))
-            .check(ViewAssertions.matches(ViewMatchers.isClickable()))
+        val entrarBtn = onView(ViewMatchers.withText("entrar"))
+        val result = entrarBtn.check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            entrarBtn.check(ViewAssertions.matches(ViewMatchers.isClickable()))
+        if(result.equals(true)){
+
+        }
+        onView(ViewMatchers.withText("entrar")).perform(ViewActions.click())
+
+        onView(ViewMatchers.withId(R.id.editTextTextEmailAddress)).perform(ViewActions.typeText("ga@bris.com"))
+        onView(ViewMatchers.withId(R.id.editTextTextPassword)).perform(ViewActions.typeText("123456"))
+        onView(ViewMatchers.withText("login")).perform(ViewActions.click())
         val d=0
 
     }

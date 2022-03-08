@@ -176,7 +176,7 @@ open class LoginDialogFragmentOpen : DialogFragment() {
             emailField = findViewById<EditText>(R.id.editTextTextEmailAddress)
             passwordField = findViewById<EditText>(R.id.editTextTextPassword)
             confirmButton = findViewById<Button>(R.id.confirm_dialog_btn)
-            confirmButton.setText("BORAMALUCO")
+            confirmButton.setText("login")
         }
 
         setupObservers(emailField,passwordField, confirmButton)
