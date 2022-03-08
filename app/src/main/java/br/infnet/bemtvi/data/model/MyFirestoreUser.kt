@@ -6,6 +6,6 @@ data class MyFirestoreUser(
     @DocumentId
     val idUser:String? = null,
     val name:String? = null,
-    val email:String,
+    val email:String? = null,
     val tvshows:List<Tvshow>?=null
 )
