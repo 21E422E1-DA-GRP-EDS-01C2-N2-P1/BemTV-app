@@ -10,4 +10,5 @@
 
 ## Mapa das rotas atual
 
-![ Mapa](https://github.com/21E422E1-DA-GRP-EDS-01C2-N2-P1/BemTV-app/blob/gabriel/assets/roadmap.png?raw=true "rotas") 
+![ Mapa](https://github.com/21E422E1-DA-GRP-EDS-01C2-N2-P1/BemTV-app/blob/gabriel/assets/roadmap.png?raw=true "rotas")
+
