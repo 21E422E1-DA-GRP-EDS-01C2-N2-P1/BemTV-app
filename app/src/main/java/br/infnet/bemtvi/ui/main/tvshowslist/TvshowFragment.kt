@@ -10,10 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import br.infnet.bemtvi.R
 import br.infnet.bemtvi.data.model.Tvshow
 import br.infnet.bemtvi.databinding.FragmentTvshowListBinding
-import br.infnet.bemtvi.ui.main.tvshowslist.placeholder.PlaceholderContent
 
 /**
  * A fragment representing a list of Items.
@@ -66,6 +64,7 @@ class TvshowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.fabAddtvshow.setOnClickListener {
             viewModel.addTvShow()
+            TvshowListDialogFragment.newInstance(30).show(childFragmentManager, "criar tvshow")
         }
     }
 

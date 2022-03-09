@@ -7,8 +7,6 @@ import android.widget.TextView
 import br.infnet.bemtvi.data.model.Tvshow
 import br.infnet.bemtvi.databinding.FragmentTvshowBinding
 
-import br.infnet.bemtvi.ui.main.tvshowslist.placeholder.PlaceholderContent.PlaceholderItem
-
 /**
  * [RecyclerView.Adapter] that can display a [PlaceholderItem].
  * TODO: Replace the implementation with code for your data type.
