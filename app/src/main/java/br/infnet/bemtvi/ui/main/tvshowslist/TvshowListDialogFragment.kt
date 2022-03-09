@@ -5,10 +5,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import br.infnet.bemtvi.R
 import br.infnet.bemtvi.databinding.FragmentTvshowBottomdialogBinding
+import br.infnet.bemtvi.ui.login.afterTextChanged
+import com.squareup.picasso.Picasso
 
-// TODO: Customize parameter argument names
-const val ARG_ITEM_COUNT = "item_count"
 
 /**
  *
@@ -20,7 +23,12 @@ const val ARG_ITEM_COUNT = "item_count"
  * </pre>
  */
 class TvshowListDialogFragment : BottomSheetDialogFragment() {
+// TODO: Customize parameter argument names
+ val ARG_ITEM_COUNT = "item_count"
 
+    private val viewModel  by viewModels<TvshowsViewModel>({
+        requireParentFragment()
+    })
     private var _binding: FragmentTvshowBottomdialogBinding? = null
 
     // This property is only valid between onCreateView and
@@ -38,7 +46,22 @@ class TvshowListDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.searchedImg.observe(viewLifecycleOwner, Observer {bigThumbnalUrl->
+            val isLinkOk = bigThumbnalUrl.contains("http")
+            if(isLinkOk){
+                val dimen = R.id.bottomsheet_imgview
+                Picasso.get().load(bigThumbnalUrl)
+                    .fit()
+                    .centerCrop()
 
+                    .error(R.drawable.ic_launcher_foreground)
+                    .into(binding.bottomsheetImgview)
+            }
+
+        })
+        binding.bottomsheetTxtTvshowName.afterTextChanged {
+            viewModel.searchTvShowImage(it)
+        }
     }
 
 
