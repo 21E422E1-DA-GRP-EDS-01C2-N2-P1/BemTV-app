@@ -40,7 +40,7 @@ class MyWatchedRecyclerViewAdapter(
 
     inner class ViewHolder(binding: FragmentWatchedBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val idView: TextView = binding.itemNumber
+        val idView: TextView = binding.tvshowitemName
         val contentView: TextView = binding.content
 
         override fun toString(): String {
