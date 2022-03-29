@@ -24,6 +24,7 @@ interface SearchImageApi{
 class SearchImageService{
     private lateinit var api: SearchImageApi
     private lateinit var listenerImgService:SearchImageServiceListener
+val d =4
     init{
         val retr = Retrofit.Builder()
             .baseUrl("https://notecompletion.herokuapp.com/")
