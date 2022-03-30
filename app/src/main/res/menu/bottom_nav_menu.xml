@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/tvshowFragment"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_home_icon"
         android:title="home" />
     <item
         android:id="@+id/watchedFragment"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_watch_icon"
         android:title="watchedFragment" />
     <item
         android:id="@+id/userProfileFragment"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_account_icon"
         android:title="userProfileFragment" />
 </menu>
