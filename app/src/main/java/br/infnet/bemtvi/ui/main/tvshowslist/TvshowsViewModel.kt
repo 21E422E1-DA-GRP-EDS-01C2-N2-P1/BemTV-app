@@ -2,6 +2,7 @@ package br.infnet.bemtvi.ui.main.tvshowslist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import br.infnet.bemtvi.data.model.Tvshow
 import br.infnet.bemtvi.services.SearchImageService
 import br.infnet.bemtvi.services.SearchImageServiceListener
@@ -9,12 +10,22 @@ import br.infnet.bemtvi.services.SearchedImageURL
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class TvshowsViewModel : ViewModel(), SearchImageServiceListener {
+class TvshowsViewModelFactory(
+    private val myFirestoreUserId:String
+) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(TvshowsViewModel::class.java)) {
+            return TvshowsViewModel(myFirestoreUserId) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+}
+class TvshowsViewModel(myFirestoreUserId:String) : ViewModel(), SearchImageServiceListener {
 
 
     val userIdBySafeArgs = "LgJKHMDiuheJ39IP3cNBfjcwXyl1"
     val users_collection = Firebase.firestore.collection("users")
-    val allUserTvshowsRef = users_collection.document(userIdBySafeArgs)
+    val allUserTvshowsRef = users_collection.document(myFirestoreUserId)
         .collection("tvshows")
 
     val searchImageService = SearchImageService()
@@ -40,9 +51,10 @@ class TvshowsViewModel : ViewModel(), SearchImageServiceListener {
         }
     }
 
-    fun addTvShow() {
+    fun addTvShow(tvshowName: String) {
 
-        val createTvShowModel = Tvshow(null, "bab", "#http")
+        val createTvShowModel = Tvshow(null,
+            tvshowName, "${searchedImg.value}")
 
         val addTvshow = allUserTvshowsRef.add(createTvShowModel)
         addTvshow.addOnSuccessListener { doc ->

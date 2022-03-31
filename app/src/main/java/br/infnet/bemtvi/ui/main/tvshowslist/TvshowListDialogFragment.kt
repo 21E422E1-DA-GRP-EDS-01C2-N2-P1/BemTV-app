@@ -53,7 +53,6 @@ class TvshowListDialogFragment : BottomSheetDialogFragment() {
                 Picasso.get().load(bigThumbnalUrl)
                     .fit()
                     .centerCrop()
-
                     .error(R.drawable.ic_launcher_foreground)
                     .into(binding.bottomsheetImgview)
             }
@@ -61,6 +60,12 @@ class TvshowListDialogFragment : BottomSheetDialogFragment() {
         })
         binding.bottomsheetTxtTvshowName.afterTextChanged {
             viewModel.searchTvShowImage(it)
+        }
+        binding.bottomsheetBtnSavetvshow.setOnClickListener {
+            val tvshowName = "${binding
+                .bottomsheetTxtTvshowName.text.toString()}"
+            viewModel.addTvShow(tvshowName)
+            dismiss()
         }
     }
 
