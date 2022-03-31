@@ -45,7 +45,12 @@ class TvshowFragment : Fragment() {
     }
     private fun updateList(tvshows:MutableList<Tvshow>){
         with(binding.rvlistTvshows as RecyclerView) {
-            adapter =MyTvshowRecyclerViewAdapter(tvshows)
+            val callbackClick = { position:Int->
+                TvshowListDialogFragment.newInstance(position)
+                    .show(childFragmentManager, "editar tvshow")
+
+            }
+            adapter =MyTvshowRecyclerViewAdapter(tvshows,callbackClick)
         }
     }
 

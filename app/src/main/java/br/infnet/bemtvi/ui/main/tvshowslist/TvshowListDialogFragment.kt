@@ -1,15 +1,19 @@
 package br.infnet.bemtvi.ui.main.tvshowslist
 
+import android.content.res.Resources
 import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import br.infnet.bemtvi.R
 import br.infnet.bemtvi.databinding.FragmentTvshowBottomdialogBinding
 import br.infnet.bemtvi.ui.login.afterTextChanged
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.squareup.picasso.Picasso
 
 
@@ -35,6 +39,10 @@ class TvshowListDialogFragment : BottomSheetDialogFragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private var isExpanded = false
+    private var unExpandedHeight = 12
+    private var bottomSheetInternal:View? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,6 +54,7 @@ class TvshowListDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        unExpandedHeight = bottomSheetInternal?.let { it.minimumHeight }?: unExpandedHeight
         viewModel.searchedImg.observe(viewLifecycleOwner, Observer {bigThumbnalUrl->
             val isLinkOk = bigThumbnalUrl.contains("http")
             if(isLinkOk){
@@ -55,11 +64,19 @@ class TvshowListDialogFragment : BottomSheetDialogFragment() {
                     .centerCrop()
                     .error(R.drawable.ic_launcher_foreground)
                     .into(binding.bottomsheetImgview)
+                if(!isExpanded){
+                    expandShowInfo()
+                    isExpanded = true
+                }
             }
 
+
         })
+
+
         binding.bottomsheetTxtTvshowName.afterTextChanged {
             viewModel.searchTvShowImage(it)
+
         }
         binding.bottomsheetBtnSavetvshow.setOnClickListener {
             val tvshowName = "${binding
@@ -67,6 +84,19 @@ class TvshowListDialogFragment : BottomSheetDialogFragment() {
             viewModel.addTvShow(tvshowName)
             dismiss()
         }
+        binding.bottomsheetUnexpand.setOnClickListener {
+            bottomSheetInternal?.minimumHeight = unExpandedHeight
+        }
+    }
+
+    private fun expandShowInfo(){
+        val d = dialog as BottomSheetDialog
+        bottomSheetInternal = d.findViewById<View>(R.id.design_bottom_sheet)
+
+        bottomSheetInternal?.minimumHeight=
+            Resources.getSystem().getDisplayMetrics().heightPixels
+
+        binding.textView.visibility = View.VISIBLE
     }
 
 
