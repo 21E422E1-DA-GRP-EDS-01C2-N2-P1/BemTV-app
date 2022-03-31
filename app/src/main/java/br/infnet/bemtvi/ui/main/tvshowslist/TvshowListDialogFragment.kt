@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import br.infnet.bemtvi.R
@@ -55,6 +56,12 @@ class TvshowListDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         unExpandedHeight = bottomSheetInternal?.let { it.minimumHeight }?: unExpandedHeight
+
+        //itemCount recebe position
+        val position = arguments!!.getInt(ARG_ITEM_COUNT)
+        Toast.makeText(requireContext(),"${position}",Toast.LENGTH_LONG+4242).show()
+
+
         viewModel.searchedImg.observe(viewLifecycleOwner, Observer {bigThumbnalUrl->
             val isLinkOk = bigThumbnalUrl.contains("http")
             if(isLinkOk){
