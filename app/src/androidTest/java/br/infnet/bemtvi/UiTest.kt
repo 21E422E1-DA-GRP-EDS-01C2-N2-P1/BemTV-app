@@ -25,7 +25,8 @@ class UiTest {
         val result = entrarBtn.check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
             entrarBtn.check(ViewAssertions.matches(ViewMatchers.isClickable()))
         if(result.equals(true)){
-
+            val bestofriendo = 0
+            val bestofrien= 0
         }
         onView(ViewMatchers.withText("entrar")).perform(ViewActions.click())
 
