@@ -25,6 +25,6 @@ class UserProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnLogout.setOnClickListener { activityViewModel.logout() }
-
+        binding.textViewUserEmail.text = activityViewModel.mUserLiveData.value!!.email
     }
 }

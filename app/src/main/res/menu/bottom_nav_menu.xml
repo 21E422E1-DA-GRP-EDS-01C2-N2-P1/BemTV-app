@@ -3,13 +3,13 @@
     <item
         android:id="@+id/tvshowFragment"
         android:icon="@drawable/ic_home_icon"
-        android:title="home" />
+        android:title="HOME" />
     <item
         android:id="@+id/watchedFragment"
         android:icon="@drawable/ic_watch_icon"
-        android:title="watchedFragment" />
+        android:title="LIST" />
     <item
         android:id="@+id/userProfileFragment"
         android:icon="@drawable/ic_account_icon"
-        android:title="userProfileFragment" />
+        android:title="PROFILE" />
 </menu>
