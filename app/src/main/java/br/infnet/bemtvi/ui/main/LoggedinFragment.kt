@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -45,6 +47,7 @@ class LoggedinFragment : Fragment() {
             .findFragmentById(R.id.loggedmain_navhost) as NavHostFragment
         val navController = findNavController(navHostFragment)
         bottomBtns.setupWithNavController(navController)
+
 
     }
 

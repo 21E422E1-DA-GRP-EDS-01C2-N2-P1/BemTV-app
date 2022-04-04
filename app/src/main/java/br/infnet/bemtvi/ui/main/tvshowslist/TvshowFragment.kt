@@ -8,10 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import br.infnet.bemtvi.data.model.Tvshow
 import br.infnet.bemtvi.databinding.FragmentTvshowListBinding
+import br.infnet.bemtvi.ui.MainActivityViewModel
+import com.google.firebase.auth.FirebaseUser
 
 /**
  * A fragment representing a list of Items.
@@ -20,7 +25,17 @@ class TvshowFragment : Fragment() {
 
     private var columnCount = 2
     private lateinit var binding:FragmentTvshowListBinding
-    private val viewModel: TvshowsViewModel by viewModels()
+
+
+    /*private val viewModel: TvshowsViewModel by viewModels(){
+        //TvshowsViewModelFactory()
+    }*/
+    private val mainActivityViewModel:
+            MainActivityViewModel by activityViewModels()
+    private lateinit var viewModel: TvshowsViewModel
+    private lateinit var factory: TvshowsViewModelFactory
+    private var myFirestoreUserId = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,7 +45,12 @@ class TvshowFragment : Fragment() {
     }
     private fun updateList(tvshows:MutableList<Tvshow>){
         with(binding.rvlistTvshows as RecyclerView) {
-            adapter =MyTvshowRecyclerViewAdapter(tvshows)
+            val callbackClick = { position:Int->
+                TvshowListDialogFragment.newInstance(position)
+                    .show(childFragmentManager, "editar tvshow")
+
+            }
+            adapter =MyTvshowRecyclerViewAdapter(tvshows,callbackClick)
         }
     }
 
@@ -38,6 +58,22 @@ class TvshowFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        myFirestoreUserId = mainActivityViewModel.mUserLiveData
+            .value?.let { it.uid }?: ""
+
+        factory = TvshowsViewModelFactory(myFirestoreUserId)
+        viewModel = ViewModelProvider(this,factory)
+            .get(TvshowsViewModel::class.java)
+
+
+
+        binding = FragmentTvshowListBinding.inflate(inflater,container,false)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         with(viewModel){
             tvshowsLiveData.observe(viewLifecycleOwner, Observer {
                 it?.let {
@@ -47,24 +83,16 @@ class TvshowFragment : Fragment() {
             })
             loadUserTvshows()
         }
-
-        binding = FragmentTvshowListBinding.inflate(inflater,container,false)
-
-
-            with(binding.rvlistTvshows as RecyclerView) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
+        with(binding.rvlistTvshows as RecyclerView) {
+            layoutManager = when {
+                columnCount <= 1 -> LinearLayoutManager(context)
+                else -> GridLayoutManager(context, columnCount)
             }
-        return binding.root
-    }
+        }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding.fabAddtvshow.setOnClickListener {
-            viewModel.addTvShow()
-            TvshowListDialogFragment.newInstance(30).show(childFragmentManager, "criar tvshow")
+            TvshowListDialogFragment.newInstance(30)
+                .show(childFragmentManager, "criar tvshow")
         }
     }
 
