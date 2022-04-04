@@ -22,8 +22,6 @@ class TvshowsViewModelFactory(
 }
 class TvshowsViewModel(myFirestoreUserId:String) : ViewModel(), SearchImageServiceListener {
 
-
-    val userIdBySafeArgs = "LgJKHMDiuheJ39IP3cNBfjcwXyl1"
     val users_collection = Firebase.firestore.collection("users")
     val allUserTvshowsRef = users_collection.document(myFirestoreUserId)
         .collection("tvshows")
