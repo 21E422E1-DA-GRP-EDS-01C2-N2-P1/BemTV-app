@@ -19,6 +19,7 @@ import br.infnet.bemtvi.R
 import br.infnet.bemtvi.ui.MainActivityViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,9 +32,26 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+    var lastInput = ""
+    var debounceJob: Job? = null
+    val uiScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+    val delayMillis=1400L
     this.addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(editable: Editable?) {
-            afterTextChanged.invoke(editable.toString())
+            if (editable != null) {
+                val newtInput = editable.toString()
+                debounceJob?.cancel()
+                if (lastInput != newtInput) {
+                    lastInput = newtInput
+                    debounceJob = uiScope.launch {
+                        delay(delayMillis)
+                        if (lastInput == newtInput) {
+                            afterTextChanged.invoke(editable.toString())
+                        }
+                    }
+                }
+
+            }
         }
 
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
