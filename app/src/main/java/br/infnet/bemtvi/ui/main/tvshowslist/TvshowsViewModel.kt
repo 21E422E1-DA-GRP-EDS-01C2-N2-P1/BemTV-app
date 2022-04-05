@@ -66,6 +66,10 @@ class TvshowsViewModel(myFirestoreUserId:String) : ViewModel(), SearchImageServi
 
             }
         }
+        addTvshow.addOnFailureListener { err->
+            println(err.message)
+            println(err.cause)
+        }
 
     }
 
