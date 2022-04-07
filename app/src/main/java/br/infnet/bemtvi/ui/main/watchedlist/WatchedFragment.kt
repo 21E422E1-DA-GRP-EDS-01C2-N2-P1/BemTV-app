@@ -8,7 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import br.infnet.bemtvi.R
+import br.infnet.bemtvi.ui.MainActivityViewModel
+import br.infnet.bemtvi.ui.main.tvshowslist.TvshowsViewModel
+import br.infnet.bemtvi.ui.main.tvshowslist.TvshowsViewModelFactory
 import br.infnet.bemtvi.ui.main.watchedlist.placeholder.PlaceholderContent
 
 /**
@@ -17,6 +21,11 @@ import br.infnet.bemtvi.ui.main.watchedlist.placeholder.PlaceholderContent
 class WatchedFragment : Fragment() {
 
     private var columnCount = 2
+
+    private val mainActivityViewModel:
+            MainActivityViewModel by activityViewModels()
+    private lateinit var viewModel: TvshowsViewModel
+    private lateinit var factory: TvshowsViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
