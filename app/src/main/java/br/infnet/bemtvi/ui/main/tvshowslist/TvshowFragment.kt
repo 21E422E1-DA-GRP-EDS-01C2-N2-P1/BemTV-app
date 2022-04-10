@@ -91,7 +91,7 @@ class TvshowFragment : Fragment() {
         }
 
         binding.fabAddtvshow.setOnClickListener {
-            TvshowListDialogFragment.newInstance(30)
+            TvshowListDialogFragment.newInstance(-1)
                 .show(childFragmentManager, "criar tvshow")
         }
     }

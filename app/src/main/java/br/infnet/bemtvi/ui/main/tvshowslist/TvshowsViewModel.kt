@@ -34,7 +34,7 @@ class TvshowsViewModel(myFirestoreUserId:String) : ViewModel(), SearchImageServi
 
     val tvshowsLiveData = MutableLiveData<MutableList<Tvshow>>()
     val getTvshows: MutableList<Tvshow>? get() = tvshowsLiveData.value
-
+    val selectedTvshow = MutableLiveData<Tvshow>()
     val searchedImg = MutableLiveData<String>().apply { value = "" }
 
     fun loadUserTvshows() {
@@ -49,10 +49,10 @@ class TvshowsViewModel(myFirestoreUserId:String) : ViewModel(), SearchImageServi
         }
     }
 
-    fun addTvShow(tvshowName: String) {
+    fun addTvShow(tvshowName: String, rating: Float) {
 
         val createTvShowModel = Tvshow(null,
-            tvshowName, "${searchedImg.value}")
+            tvshowName, "${searchedImg.value}",rating)
 
         val addTvshow = allUserTvshowsRef.add(createTvShowModel)
         addTvshow.addOnSuccessListener { doc ->

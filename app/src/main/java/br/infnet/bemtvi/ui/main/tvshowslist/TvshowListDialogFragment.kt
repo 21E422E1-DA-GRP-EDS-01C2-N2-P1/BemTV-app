@@ -6,14 +6,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import br.infnet.bemtvi.R
+import br.infnet.bemtvi.data.model.Tvshow
 import br.infnet.bemtvi.databinding.FragmentTvshowBottomdialogBinding
 import br.infnet.bemtvi.ui.login.afterTextChanged
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.squareup.picasso.Picasso
 
@@ -59,7 +57,16 @@ class TvshowListDialogFragment : BottomSheetDialogFragment() {
 
         //itemCount recebe position
         val position = arguments!!.getInt(ARG_ITEM_COUNT)
-        Toast.makeText(requireContext(),"${position}",Toast.LENGTH_LONG+4242).show()
+
+        if(position!=-1){
+            viewModel.selectedTvshow.value = viewModel.getTvshows?.get(position)
+        }
+        viewModel.selectedTvshow.observe(viewLifecycleOwner, Observer { selcted->
+            selcted?.let {
+            updateUiWithSelection(selcted)
+            }
+        })
+
 
 
         viewModel.searchedImg.observe(viewLifecycleOwner, Observer {bigThumbnalUrl->
@@ -88,11 +95,20 @@ class TvshowListDialogFragment : BottomSheetDialogFragment() {
         binding.bottomsheetBtnSavetvshow.setOnClickListener {
             val tvshowName = "${binding
                 .bottomsheetTxtTvshowName.text.toString()}"
-            viewModel.addTvShow(tvshowName)
+            viewModel.addTvShow(tvshowName,binding.ratingBar.rating)
             dismiss()
         }
         binding.bottomsheetUnexpand.setOnClickListener {
             bottomSheetInternal?.minimumHeight = unExpandedHeight
+        }
+    }
+
+    private fun updateUiWithSelection(selcted: Tvshow) {
+        with(binding){
+            bottomsheetTxtTvshowName.setText(selcted.name)
+            viewModel.searchedImg.postValue(selcted.urlThumbnail)
+            selcted.rating?.let{binding.ratingBar.rating = it}
+
         }
     }
 
@@ -103,7 +119,7 @@ class TvshowListDialogFragment : BottomSheetDialogFragment() {
         bottomSheetInternal?.minimumHeight=
             Resources.getSystem().getDisplayMetrics().heightPixels
 
-        binding.textView.visibility = View.VISIBLE
+        //binding.textView.visibility = View.VISIBLE
     }
 
 
