@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottomsheet_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:clipToPadding="false"
     android:paddingTop="@dimen/list_item_spacing_half"
     android:paddingBottom="@dimen/list_item_spacing_half"
-    tools:context=".ui.main.tvshowslist.TvshowListDialogFragment"  >
+    tools:context=".ui.main.tvshowslist.TvshowListDialogFragment">
 
     <EditText
         android:id="@+id/bottomsheet_txt_tvshow_name"
@@ -42,17 +42,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="52dp"
         android:text="salvar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ratingBar" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="34sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/bottomsheet_unexpand"
