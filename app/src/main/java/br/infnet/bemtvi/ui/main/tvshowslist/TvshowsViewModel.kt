@@ -7,6 +7,8 @@ import br.infnet.bemtvi.data.model.Tvshow
 import br.infnet.bemtvi.services.SearchImageService
 import br.infnet.bemtvi.services.SearchImageServiceListener
 import br.infnet.bemtvi.services.SearchedImageURL
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -34,7 +36,7 @@ class TvshowsViewModel(myFirestoreUserId:String) : ViewModel(), SearchImageServi
 
     val tvshowsLiveData = MutableLiveData<MutableList<Tvshow>>()
     val getTvshows: MutableList<Tvshow>? get() = tvshowsLiveData.value
-    val selectedTvshow = MutableLiveData<Tvshow>()
+    val selectedTvshow = MutableLiveData<Tvshow?>().apply { value=null }
     val searchedImg = MutableLiveData<String>().apply { value = "" }
 
     fun loadUserTvshows() {
@@ -48,27 +50,51 @@ class TvshowsViewModel(myFirestoreUserId:String) : ViewModel(), SearchImageServi
             tvshowsLiveData.postValue(placeholderTvshowsList)
         }
     }
+private fun updateLocalTvShows(doc:DocumentReference){
+    val tvshows = getTvshows
+    doc.get().addOnSuccessListener { tvshow ->
+        val objTvshow = tvshow.toObject(Tvshow::class.java)
+        if (objTvshow != null && tvshows != null) {
+            tvshows.add(objTvshow)
+            tvshowsLiveData.postValue(tvshows!!)
+        }
 
+    }
+}
     fun addTvShow(tvshowName: String, rating: Float) {
 
         val createTvShowModel = Tvshow(null,
             tvshowName, "${searchedImg.value}",rating)
 
-        val addTvshow = allUserTvshowsRef.add(createTvShowModel)
-        addTvshow.addOnSuccessListener { doc ->
-            val tvshows = getTvshows
-            doc.get().addOnSuccessListener { tvshow ->
-                val objTvshow = tvshow.toObject(Tvshow::class.java)
-                if (objTvshow != null && tvshows != null) {
-                    tvshows.add(objTvshow)
-                    tvshowsLiveData.postValue(tvshows!!)
-                }
+        if(selectedTvshow.value!=null){
+            val selectedId = selectedTvshow.value?.idTvshowFirestore
+            createTvShowModel.idTvshowFirestore = selectedId
+            println("SSSSSSSSSSSselectedId$selectedId")
+            val updateTvshow = allUserTvshowsRef.document("$selectedId").set(createTvShowModel)
+            updateTvshow.addOnSuccessListener {
+                val task = allUserTvshowsRef.get()
+                task.addOnSuccessListener { doc->
+                    val tvshowIndex = getTvshows?.withIndex()
+                        ?.first { selectedId == it.value.idTvshowFirestore }
+                        ?.index
 
+                    tvshowIndex?.let {
+                        val modifiedList = getTvshows?.set(it,createTvShowModel)
+                        tvshowsLiveData.postValue(getTvshows)
+                    }
+                }
             }
-        }
-        addTvshow.addOnFailureListener { err->
-            println(err.message)
-            println(err.cause)
+
+        }else{
+            val addTvshow = allUserTvshowsRef.add(createTvShowModel)
+            addTvshow.addOnSuccessListener { doc ->
+                updateLocalTvShows(doc)
+            }
+            addTvshow.addOnFailureListener { err->
+                println(err.message)
+                println(err.cause)
+            }
+
         }
 
     }

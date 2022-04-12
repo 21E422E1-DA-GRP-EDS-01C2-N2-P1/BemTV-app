@@ -36,11 +36,16 @@ class MyTvshowRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.tvshowName.text = item.name
-        Picasso.get().load(item.urlThumbnail)
-            .fit()
-            .centerCrop()
-            .error(R.drawable.ic_launcher_foreground)
-            .into(holder.tvshowimg)
+        try {
+            Picasso.get().load(item.urlThumbnail)
+                .fit()
+                .centerCrop()
+                .error(R.drawable.ic_launcher_foreground)
+                .into(holder.tvshowimg)
+
+        }catch (e:Exception){
+            println("url invalida encontrada")
+        }
 
         holder.container.setOnClickListener {
             clickCallback(position)

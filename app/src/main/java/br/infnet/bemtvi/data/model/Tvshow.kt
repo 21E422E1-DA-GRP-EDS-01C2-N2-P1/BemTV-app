@@ -5,8 +5,10 @@ import java.io.Serializable
 
 data class Tvshow(
 
-    val idTvshow:Long? = null,
+    var idTvshow:Long? = null,
     val name:String? = null,
     val urlThumbnail:String? = null,
-    var rating: Float?=null
+    var rating: Float?=null,
+    @DocumentId
+    var idTvshowFirestore: String?= null,
 )

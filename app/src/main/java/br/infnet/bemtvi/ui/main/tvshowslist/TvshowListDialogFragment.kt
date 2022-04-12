@@ -103,6 +103,11 @@ class TvshowListDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.selectedTvshow.value=null
+    }
+
     private fun updateUiWithSelection(selcted: Tvshow) {
         with(binding){
             bottomsheetTxtTvshowName.setText(selcted.name)
